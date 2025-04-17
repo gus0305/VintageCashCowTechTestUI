@@ -1,0 +1,12 @@
+﻿@if (Error != null)
+{
+    <RadzenAlert Variant="Variant.Filled" AlertStyle="AlertStyle.Danger" Size="AlertSize.Medium" Shade="Shade.Default">
+        @Error
+    </RadzenAlert>
+}
+
+@code
+{
+    [Parameter]
+    public string? Error { get; set; }
+}

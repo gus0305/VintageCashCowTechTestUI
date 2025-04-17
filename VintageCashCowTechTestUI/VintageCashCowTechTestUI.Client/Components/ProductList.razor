@@ -1,0 +1,31 @@
+﻿@using VintageCashCowTechTestUI.Client.ViewModels
+
+@if (Model == null)
+{
+    <Loading></Loading>
+}
+else
+{
+    <p>Right click on the table to open the context menu.</p>
+    <RadzenDataGrid Data="Model" TItem="ProductViewModel" AllowPaging="true" PageSize="5"
+        AllowSorting="true" SelectionMode="DataGridSelectionMode.Single" @bind-Value=@_selectedProducts
+        CellContextMenu="@OnCellContextMenu">
+        <EmptyTemplate>
+            <p>No data available.</p>
+        </EmptyTemplate>
+        <Columns>
+            <RadzenDataGridColumn Property="@nameof(ProductViewModel.Id)" Title="ID" />
+            <RadzenDataGridColumn Property="@nameof(ProductViewModel.Name)" Title="Name" />
+            <RadzenDataGridColumn Property="@nameof(ProductViewModel.Price)" Title="Price">
+                <Template Context="product">
+                    @String.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C}", product.Price)
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn Property="@nameof(ProductViewModel.LastUpdated)" Title="Last Updated" >
+                <Template Context="product">
+                    @String.Format(new System.Globalization.CultureInfo("en-GB"), "{0:G}", product.LastUpdated)
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+}

@@ -1,0 +1,39 @@
+﻿@using VintageCashCowTechTestUI.Client.ViewModels
+
+@if (Model == null)
+{
+    <Loading></Loading>
+}
+else
+{
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeSM="12">
+            <RadzenStack Gap="1rem">
+                <RadzenFormField Text="Product ID" Variant="@Variant.Outlined">
+                    <RadzenNumeric Value="@Model.Id" Disabled="true" />
+                </RadzenFormField>
+                <RadzenFormField Text="Product Name" Variant="@Variant.Outlined">
+                    <RadzenTextBox Value="@Model.Name" Disabled="true" />
+                </RadzenFormField>
+            </RadzenStack>
+        </RadzenColumn>
+
+        <RadzenDataGrid Data="Model.PriceHistory" TItem="PriceHistoryViewModel" AllowPaging="true" PageSize="5" AllowSorting="true">
+            <EmptyTemplate>
+                <p>No data available.</p>
+            </EmptyTemplate>
+            <Columns>
+                <RadzenDataGridColumn Property="@nameof(PriceHistoryViewModel.Date)" Title="Date">
+                    <Template Context="product">
+                        @String.Format(new System.Globalization.CultureInfo("en-GB"), "{0:G}", product.Date)
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="@nameof(PriceHistoryViewModel.Price)" Title="Price">
+                    <Template Context="product">
+                        @String.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C}", product.Price)
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenRow>
+}

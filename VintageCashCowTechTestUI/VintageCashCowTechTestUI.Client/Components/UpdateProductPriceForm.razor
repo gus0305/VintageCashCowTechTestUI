@@ -1,0 +1,23 @@
+﻿<ServerError Error="@_serverError"></ServerError>
+
+<RadzenRow Gap="1rem">
+    <RadzenColumn Size="12" SizeSM="12">
+        <RadzenStack Gap="1rem">
+            <RadzenFormField Text="Product ID" Variant="@Variant.Outlined">
+                <RadzenNumeric Value="@ProductId" Disabled="true"   />
+            </RadzenFormField>
+            <RadzenFormField Text="Product Name" Variant="@Variant.Outlined">
+                <RadzenTextBox Value="@ProductName" Disabled="true" />
+            </RadzenFormField>
+            <RadzenFormField Text="Product Price" Variant="@Variant.Outlined">
+                <RadzenNumeric Value="@ProductPrice" Disabled="true" />
+            </RadzenFormField>
+            <RadzenFormField Text="New Price" Variant="@Variant.Outlined">
+                <RadzenNumeric @bind-Value="@NewPrice" />
+            </RadzenFormField>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Start" Gap="1rem" class="mt-4">
+            <RadzenButton Text="Save" Click=@SaveClicked IsBusy=@_saving style="width: 160px" Icon="save" BusyText="Saving..." />
+        </RadzenStack>
+    </RadzenColumn>
+</RadzenRow>
