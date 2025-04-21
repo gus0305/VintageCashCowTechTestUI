@@ -56,6 +56,9 @@ namespace VintageCashCowTechTestUI.Client.Tests.Unit.Components
             var inputProductNameElement = cut.Find("div > div > div:nth-child(2) > div > input");
             Assert.AreEqual("ProductName 1234", inputProductNameElement.GetAttribute("value"), "inputProductName");
 
+            var tableRowElements = cut.FindAll(GetTableRowsSelector());
+            Assert.AreEqual(2, tableRowElements.Count, "Number of table rows");
+
             var firstRowDateElement = cut.Find(GetTableCellSelector(1, 1));
             Assert.AreEqual("17/04/2025 23:59:58", firstRowDateElement.TextContent, "firstRowDate");
 
@@ -67,6 +70,37 @@ namespace VintageCashCowTechTestUI.Client.Tests.Unit.Components
 
             var secondRowPriceElement = cut.Find(GetTableCellSelector(2, 2));
             Assert.AreEqual("£123.22", secondRowPriceElement.TextContent, "secondRowPrice");
+        }
+
+        [TestMethod]
+        public void OnInitializeAsync_WhenPriceHistoryEmpty_SetsEmptyTableText()
+        {
+            // Arrange
+            var productServiceMock = new Mock<IProductService>();
+            var productPriceHistoryViewModelMapperMock = new Mock<IProductPriceHistoryViewModelMapper>();
+
+            Services.AddSingleton(productServiceMock.Object);
+            Services.AddSingleton(productPriceHistoryViewModelMapperMock.Object);
+
+            const int productId = 1234;
+            var product = new ProductPriceHistoryResponse();
+            productServiceMock.Setup(x => x.GetProductAsync(productId)).Returns(Task.FromResult(product));
+
+            var productPriceHistoryViewModel = new ProductPriceHistoryViewModel
+            {
+                PriceHistory = new List<PriceHistoryViewModel>()
+            };
+            productPriceHistoryViewModelMapperMock.Setup(x => x.Map(product)).Returns(productPriceHistoryViewModel);
+
+            // Act
+            var cut = TestContext!.RenderComponent<ProductPriceHistory>(parameters => parameters.Add(p => p.ProductId, productId));
+
+            // Assert
+            var tableRowElements = cut.FindAll(GetTableRowsSelector());
+            Assert.AreEqual(1, tableRowElements.Count, "Number of table rows");
+
+            var firstRowFirstCellElement = cut.Find(GetTableCellSelector(1, 1));
+            Assert.AreEqual("No data available.", firstRowFirstCellElement.TextContent, "Empty table text");
         }
     }
 }

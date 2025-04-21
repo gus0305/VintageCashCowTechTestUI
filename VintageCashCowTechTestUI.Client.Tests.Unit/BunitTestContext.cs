@@ -19,5 +19,10 @@ namespace VintageCashCowTechTestUI.Client.Tests.Unit
         {
             return $"{GetTableRowSelector(rowNumber)} > td:nth-child({columnNumber})";
         }
+
+        public string GetTableRowsSelector()
+        {
+            return "table > tbody > tr";
+        }
     }
 }
