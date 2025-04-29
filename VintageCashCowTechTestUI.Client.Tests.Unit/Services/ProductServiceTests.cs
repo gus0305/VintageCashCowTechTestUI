@@ -26,12 +26,12 @@ namespace VintageCashCowTechTestUI.Client.Tests.Unit.Services
         {
             _httpMessageHandlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             _httpClient = new HttpClient(_httpMessageHandlerMock.Object)
-            { 
-                BaseAddress = new Uri(ProductApiHost) 
+            {
+                BaseAddress = new Uri(ProductApiHost)
             };
             _configurationMock = new Mock<IConfiguration>();
             _httpResponseMessageHandlerMock = new Mock<IHttpResponseMessageHandler>();
-            
+
             _configurationMock.Setup(c => c["ProductApiHost"]).Returns(ProductApiHost);
 
             _productService = new ProductService(_httpClient, _configurationMock.Object, _httpResponseMessageHandlerMock.Object);
@@ -66,7 +66,7 @@ namespace VintageCashCowTechTestUI.Client.Tests.Unit.Services
             _httpMessageHandlerMock
                 .Protected()
                 .Verify("SendAsync", Times.Once(), ItExpr.Is<HttpRequestMessage>(req =>
-                    req.Method == HttpMethod.Get && 
+                    req.Method == HttpMethod.Get &&
                     req.RequestUri.ToString() == $"{ProductApiHost}/{ProductsApiBasePath}"),
                     ItExpr.IsAny<CancellationToken>());
         }
@@ -103,7 +103,7 @@ namespace VintageCashCowTechTestUI.Client.Tests.Unit.Services
             _httpMessageHandlerMock
                 .Protected()
                 .Verify("SendAsync", Times.Once(), ItExpr.Is<HttpRequestMessage>(req =>
-                    req.Method == HttpMethod.Get && 
+                    req.Method == HttpMethod.Get &&
                     req.RequestUri.ToString() == $"{ProductApiHost}/{ProductsApiBasePath}/{productId}"),
                     ItExpr.IsAny<CancellationToken>());
         }
@@ -183,3 +183,4 @@ namespace VintageCashCowTechTestUI.Client.Tests.Unit.Services
         }
     }
 }
+
